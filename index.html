@@ -2,31 +2,66 @@
 <html>
 <head>
   <title>Record your Contest Data</title>
-  <script src="https://js.jotform.com/JotForm.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+    label { display: block; margin-top: 20px; font-weight: bold; }
+    input, select { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
+    .error { color: red; font-size: 13px; }
+    button { margin-top: 30px; padding: 12px 30px; background: #0066cc; color: white; border: none; cursor: pointer; }
+  </style>
 </head>
-<body style="margin:0;padding:0;">
+<body>
+
+  <h2>Record your Contest Data</h2>
+  <p style="color:red;">For registered users only. If you have not registered yet, <a href="#">register here first</a>.</p>
+
+  <div id="errorMsg" class="error"></div>
+
+  <label>Registered Email *</label>
+  <input type="email" id="emailField" placeholder="example@example.com" required>
+
+  <label>Event Date *</label>
+  <input type="date" id="eventDate" required>
+
+  <label>Event *</label>
+  <select id="event" required>
+    <option value="">Please Select</option>
+    <option>Swim</option>
+    <option>Bike</option>
+    <option>Run</option>
+    <option>Row</option>
+    <option>Lift</option>
+    <option>Zwift</option>
+  </select>
+
+  <label>Duration *</label>
+  <input type="text" id="duration" placeholder="HH:MM:SS" required>
+
+  <button onclick="submitForm()">Submit</button>
 
   <script>
-    JotForm.onSubmit(function() {
-      var email = document.querySelector('input[type="email"]').value;
+    function submitForm() {
+      var email = document.getElementById("emailField").value;
+      var errorMsg = document.getElementById("errorMsg");
+      errorMsg.textContent = "Validating email...";
+
       fetch("https://script.google.com/macros/s/1KkC9T7zmGaAKnMJHF6edH1OdVZu_HycszjXAI8n5YWrtFba2xA-_yEQX/exec?email=" + encodeURIComponent(email))
         .then(r => r.json())
         .then(data => {
           if (!data.valid) {
-            alert("This email is not authorized.");
+            errorMsg.textContent = "❌ This email is not registered. Please register first.";
+          } else {
+            errorMsg.style.color = "green";
+            errorMsg.textContent = "✅ Email verified! Submitting...";
+            // Submit to Google Sheets or JotForm API here
+            alert("Form submitted successfully!");
           }
+        })
+        .catch(() => {
+          errorMsg.textContent = "Validation error. Please try again.";
         });
-      return false;
-    });
+    }
   </script>
-
-  <iframe id="JotFormIFrame"
-    src="https://form.jotform.com/260656839290063"
-    width="100%"
-    height="1000px"
-    frameborder="0"
-    scrolling="yes">
-  </iframe>
 
 </body>
 </html>
