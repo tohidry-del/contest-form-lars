@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Record your Contest Data</title>
+  <script src="https://js.jotform.com/JotForm.js"></script>
+</head>
+<body style="margin:0;padding:0;">
+
+  <script>
+    JotForm.onSubmit(function() {
+      var email = document.querySelector('input[type="email"]').value;
+      fetch("https://script.google.com/macros/s/1KkC9T7zmGaAKnMJHF6edH1OdVZu_HycszjXAI8n5YWrtFba2xA-_yEQX/exec?email=" + encodeURIComponent(email))
+        .then(r => r.json())
+        .then(data => {
+          if (!data.valid) {
+            alert("This email is not authorized.");
+          }
+        });
+      return false;
+    });
+  </script>
+
+  <iframe id="JotFormIFrame"
+    src="https://form.jotform.com/260656839290063"
+    width="100%"
+    height="1000px"
+    frameborder="0">
+  </iframe>
+
+</body>
+</html>
