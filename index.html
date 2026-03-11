@@ -3,16 +3,15 @@
 <head>
   <title>Record your Contest Data</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 600px; margin: 40px auto; padding: 20px; }
+    body { font-family: Arial, sans-serif; max-width: 500px; margin: 80px auto; padding: 20px; }
     label { display: block; margin-top: 20px; font-weight: bold; }
-    input, select { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
-    .error { color: red; font-size: 13px; margin-top: 10px; }
-    .success { color: green; font-size: 13px; margin-top: 10px; }
-    button { margin-top: 30px; padding: 12px 30px; background: #0066cc; color: white; border: none; cursor: pointer; border-radius: 4px; }
+    input { width: 100%; padding: 10px; margin-top: 5px; box-sizing: border-box; font-size: 15px; }
+    .error { color: red; margin-top: 10px; }
+    .success { color: green; margin-top: 10px; }
+    button { margin-top: 20px; padding: 12px 30px; background: #0066cc; color: white; border: none; cursor: pointer; border-radius: 4px; font-size: 15px; width: 100%; }
   </style>
 </head>
 <body>
-
   <h2>Record your Contest Data</h2>
   <p style="color:red;">For registered users only. If you have not registered yet, <a href="#">register here first</a>.</p>
 
@@ -21,10 +20,10 @@
 
   <div id="statusMsg"></div>
 
-  <button onclick="submitForm()">Submit</button>
+  <button onclick="validateAndRedirect()">Continue to Form</button>
 
   <script>
-    function submitForm() {
+    function validateAndRedirect() {
       var email = document.getElementById("emailField").value.trim();
       var statusMsg = document.getElementById("statusMsg");
 
@@ -45,11 +44,11 @@
             statusMsg.textContent = "❌ This email is not registered. Please register first.";
           } else {
             statusMsg.className = "success";
-            statusMsg.textContent = "✅ Email verified! Redirecting to form...";
-            // Redirect to your JotForm after validation
+            statusMsg.textContent = "✅ Verified! Loading your form...";
+            // Redirect to JotForm with email pre-filled
             setTimeout(function() {
-              window.location.href = "https://form.jotform.com/260656839290063";
-            }, 1500);
+              window.location.href = "https://form.jotform.com/260656839290063?input_4=" + encodeURIComponent(email);
+            }, 1000);
           }
         })
         .catch(() => {
@@ -58,6 +57,5 @@
         });
     }
   </script>
-
 </body>
 </html>
